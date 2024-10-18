@@ -1,41 +1,34 @@
 import React, { useState } from 'react';
+import { useSettings } from '../../store/store';
 import { IonIcon } from '@ionic/react';
 import { caretDownOutline } from 'ionicons/icons';
-import { useSettings } from '../../store/store';
-import logoImage from '/home/mac/kshitij-projects/search_ai_ui/src/assets/vis-logo-character-002.gif';
 
 const GptIntro: React.FC = () => {
+  const { settings, setSelectedDatabase } = useSettings();
+  const { selectedDatabase } = settings;
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedDatabase, setSelectedDatabase } = useSettings();
-  const databases = ['ERP Navi', 'UDS', 'Discovery']; 
+  const databases = ['ERP Navi', 'UDS', 'Discovery'];
 
   return (
-    <div className="flex flex-col items-center justify-center h-96">
-      <img 
-        src={logoImage} 
-        alt="Logo" 
-        className="w-50 h-20 mb-2"
-      />
-      
-      <div className="relative w-64 mt-2">
+    <div className="flex items-center justify-center h-screen">
+      <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+          className="flex items-center space-x-2 text-lg font-semibold"
         >
-          {selectedDatabase || 'Select Database'}
-          <IonIcon icon={caretDownOutline} className="ml-2 h-5 w-5" />
+          <span>{selectedDatabase || 'Select Database'}</span>
+          <IonIcon icon={caretDownOutline} />
         </button>
-
         {isOpen && (
-          <div className="absolute z-10 w-full mt-1 bg-white shadow-lg rounded-md">
+          <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
             {databases.map((db) => (
               <button
                 key={db}
+                className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
                 onClick={() => {
                   setSelectedDatabase(db);
                   setIsOpen(false);
                 }}
-                className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
               >
                 {db}
               </button>
@@ -48,6 +41,58 @@ const GptIntro: React.FC = () => {
 };
 
 export default GptIntro;
+
+
+// import React, { useState } from 'react';
+// import { IonIcon } from '@ionic/react';
+// import { caretDownOutline } from 'ionicons/icons';
+// import { useSettings } from '../../store/store';
+// import logoImage from '/home/mac/kshitij-projects/search_ai_ui/src/assets/vis-logo-character-002.gif';
+
+// const GptIntro: React.FC = () => {
+//   const [isOpen, setIsOpen] = useState(false);
+//   const { selectedDatabase, setSelectedDatabase } = useSettings();
+//   const databases = ['ERP Navi', 'UDS', 'Discovery']; 
+
+//   return (
+//     <div className="flex flex-col items-center justify-center h-96">
+//       <img 
+//         src={logoImage} 
+//         alt="Logo" 
+//         className="w-50 h-20 mb-2"
+//       />
+      
+//       <div className="relative w-64 mt-2">
+//         <button
+//           onClick={() => setIsOpen(!isOpen)}
+//           className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+//         >
+//           {selectedDatabase || 'Select Database'}
+//           <IonIcon icon={caretDownOutline} className="ml-2 h-5 w-5" />
+//         </button>
+
+//         {isOpen && (
+//           <div className="absolute z-10 w-full mt-1 bg-white shadow-lg rounded-md">
+//             {databases.map((db) => (
+//               <button
+//                 key={db}
+//                 onClick={() => {
+//                   setSelectedDatabase(db);
+//                   setIsOpen(false);
+//                 }}
+//                 className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+//               >
+//                 {db}
+//               </button>
+//             ))}
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default GptIntro;
 
 
 // import React, { useState } from 'react';

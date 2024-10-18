@@ -78,6 +78,8 @@ export interface SettingsType {
   isSystemMessageModalVisible: boolean;
   isModalVisible: boolean;
   selectedDatabase: string | null;
+  systemMessage: string;
+  useSystemMessageForAllChats: boolean;
   setSelectedDatabase: (database: string) => void;
   setSystemMessage: (value: SystemMessageType) => void;
   setSystemMessageModalVisible: (value: boolean) => void;
@@ -118,7 +120,7 @@ export interface AuthType {
   user: UserType;
 }
 
-const useChat = create<ChatType>((set, get) => ({
+export const useChat = create<ChatType>((set, get) => ({
   chats: [],
   chatHistory: localStorage.getItem("chatHistory")
     ? JSON.parse(localStorage.getItem("chatHistory") as string)
@@ -286,7 +288,17 @@ const useSettings = createWithEqualityFn<SettingsType>()(
       isSystemMessageModalVisible: false,
       isModalVisible: false,
       selectedDatabase: null,
-      setSelectedDatabase: (database) => set({ selectedDatabase: database }),
+      systemMessage: '',
+      useSystemMessageForAllChats: false,
+      // setSelectedDatabase: (database) => set({ selectedDatabase: database }),
+      setSelectedDatabase: (database: string) =>
+        set((state) => ({
+          settings: { ...state.settings, selectedDatabase: database },
+        })),
+      setUseSystemMessageForAllChats: (use: boolean) =>
+        set((state) => ({
+          settings: { ...state.settings, useSystemMessageForAllChats: use },
+        })),
       setSystemMessage: (value) => {
         set(
           produce((state: SettingsType) => {
@@ -295,6 +307,7 @@ const useSettings = createWithEqualityFn<SettingsType>()(
           })
         );
       },
+      
       setSystemMessageModalVisible: (value) => {
         set(
           produce((state: SettingsType) => {
